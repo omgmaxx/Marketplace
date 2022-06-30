@@ -1,6 +1,6 @@
 from django.urls import path
 
-from views import CreateOrder, OrderConfirmation, OrderPaymentType, OrderDeliveryType, OrderPayment
+from .views import CreateOrder, OrderConfirmation, OrderPaymentType, OrderDeliveryType, OrderPayment
 
 urlpatterns = [
     path('', CreateOrder.as_view(), name='make-order'),

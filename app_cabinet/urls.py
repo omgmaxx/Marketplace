@@ -1,6 +1,6 @@
 from django.urls import path
 
-from views import Cabinet, Profile, HistoryList, HistoryDetail
+from .views import Cabinet, Profile, HistoryList, HistoryDetail
 
 urlpatterns = [
     path('', Cabinet.as_view(), name='cabinet'),
