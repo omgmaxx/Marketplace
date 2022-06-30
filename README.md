@@ -15,8 +15,11 @@ Models implemented:
 - PaymentStatus
 - PaymentType
 - DeliveryType
+- Category
+- Manufacturer
 
 ![db template image](docs/db_template.png)
+![db template image 2](docs/db_template_2.png)
 
 ### Paths structure
 | **Section** | **Page**          | **Description**                                                    | **HTTP-method** | **URL**                   | **Commentary**                                   |
