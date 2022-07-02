@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app_order.apps.AppOrderConfig',
+    'app_users.apps.AppUsersConfig',
+    'app_catalog.apps.AppCatalogConfig',
+    'app_cabinet.apps.AppCabinetConfig',
+    'app_cart.apps.AppCartConfig',
+    'app_landing.apps.LandingConfig',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +60,7 @@ ROOT_URLCONF = 'iShop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
