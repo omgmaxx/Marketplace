@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'app_catalog.apps.AppCatalogConfig',
     'app_cabinet.apps.AppCabinetConfig',
     'app_cart.apps.AppCartConfig',
+    'app_landing.apps.LandingConfig',
 ]
 
 MIDDLEWARE = [
