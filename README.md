@@ -1,5 +1,41 @@
 # Marketplace MEGANO backend project
 
+## Setup
+
+```
+(env)$ pip install -r requirements.txt
+```
+
+---
+[optional] for Postgresql:
+
+- comment sqlite section in settings.py
+- --- AND ---
+- put docs/.my_pgpass.conf and docs/.pg_service.conf into %appdata%/postgresql/
+- uncomment postgresql-options section in settings.py
+- --- OR ---
+- uncomment postgresql section 
+---
+
+```
+(env)$ py manage.py migrate
+```
+
+---
+[optional] for superuser:
+```
+(env)$ py manage.py loaddata super_user_admin_123.json
+```
+---
+
+
+```
+(env)$ py manage.py runserver
+```
+
+
+
+
 ## Project structure
 
 ### Database structure
