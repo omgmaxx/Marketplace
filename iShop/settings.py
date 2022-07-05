@@ -82,10 +82,25 @@ WSGI_APPLICATION = 'iShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'db.sqlite3',
     }
-}
 
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #
+    #     'NAME': 'db_iShop',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '123',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    #
+    #     # 'OPTIONS': {
+    #     #     'service': 'mydb',
+    #     #     'passfile': '.my_pgpass',
+    #     # },
+    # }
+
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
