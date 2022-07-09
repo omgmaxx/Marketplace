@@ -117,7 +117,7 @@ class ParameterValue(models.Model):
         unique_together = ('item', 'parameter')
 
     def __str__(self):
-        return self.value
+        return f'{self.parameter.name}: {self.value}'
 
 
 def user_directory_path(instance, filename):

@@ -51,9 +51,13 @@ class ParameterValueInline(admin.StackedInline):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'is_limited', 'is_available', 'category', 'manufacturer']
+    list_display = ['name', 'price', 'is_limited', 'is_available', 'category', 'manufacturer', 'get_tags']
     fields = ['name', 'short_description', 'description', 'price', 'is_limited', 'is_available', 'category', 'manufacturer', 'tags']
     list_filter = ['is_limited', 'is_available', 'category', 'manufacturer', 'tags']
     inlines = [CommentaryInline, ImageInline, ParameterValueInline]
+
+    def get_tags(self, obj):
+        return list(obj.tags.all())
+    get_tags.short_description = 'tags'
 
 
