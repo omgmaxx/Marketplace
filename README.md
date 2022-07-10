@@ -19,6 +19,7 @@
 
 ```
 (env)$ py manage.py migrate
+(env)$ py manage.py loaddata test_catalog.json
 ```
 
 ---
