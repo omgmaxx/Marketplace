@@ -1,6 +1,8 @@
 from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
 
+from app_catalog.models import Category
+
 
 class MainPage(TemplateView):
     template_name = 'landing/main.html'
@@ -15,7 +17,7 @@ class MainPage(TemplateView):
             'tw': 'https://twitter.com/',
             'in': 'https://www.linkedin.com/',
             'pt': 'https://www.pinterest.ru/',
-            'mail': 'mail@mail.com',
+            'mail': 'mailto:mail@mail.com',
         }
 
         context['cart'] = {
@@ -29,6 +31,8 @@ class MainPage(TemplateView):
             'skype': 'techno',
             'address': ['New York, north', 'Avenue 26/7', '0057'],
         }
+
+        context['categories'] = Category.objects.all()
 
         # здесь будет кэширование
 

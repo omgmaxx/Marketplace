@@ -1,4 +1,5 @@
 {% load static %}
+{% load mptt_tags %}
 
 <!--END-->
 <!--END--><!DOCTYPE html><!--[if IE 7]>
@@ -57,16 +58,10 @@
               <div class="row-block hide_700"><span class="ControlPanel-title">Follow Us</span>
                 <ul class="menu menu_img menu_smallImg ControlPanel-menu">
                    {# link are given as view context  #}
-                  <li class="menu-item"><a class="menu-link" href="{{ links.fb }}"><img src='{% static "assets/img/icons/socialHeader/fb.svg" %}' alt="fb.svg"/></a>
-                  </li>
-                  <li class="menu-item"><a class="menu-link" href="{{ links.tw }}"><img src='{% static "assets/img/icons/socialHeader/tw.svg" %}' alt="tw.svg"/></a>
-                  </li>
-                  <li class="menu-item"><a class="menu-link" href="{{ links.in }}"><img src='{% static "assets/img/icons/socialHeader/in.svg" %}' alt="in.svg"/></a>
-                  </li>
-                  <li class="menu-item"><a class="menu-link" href="{{ links.pt }}"><img src='{% static "assets/img/icons/socialHeader/pt.svg" %}' alt="pt.svg"/></a>
-                  </li>
-                  <li class="menu-item"><a class="menu-link" href="mailto:{{ links.mail }}"><img src='{% static "assets/img/icons/socialHeader/mail.svg" %}' alt="mail.svg"/></a>
-                  </li>
+                    {% for social, link in links.items %}
+                      <li class="menu-item"><a class="menu-link" href="{{ link }}"><img src='{% static "assets/img/icons/socialHeader" %}/{{ social }}.svg' alt="{{ social }}.svg"/></a>
+                      </li>
+                    {% endfor %}
                 </ul>
               </div>
             </div>
@@ -138,74 +133,30 @@
               <div class="CategoriesButton-arrow">
               </div>
             </div>
+
+            {# Categories #}
             <div class="CategoriesButton-content">
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=accessories">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/1.svg" %}' alt="1.svg"/>
-                  </div><span class="CategoriesButton-text">Accessories</span></a>
+              {% recursetree categories %}
+              {% if node.is_active %}
+              <div class="CategoriesButton-link">
+                  <a href="{% url 'catalog' %}?category={{ node.name }}">
+                      <div class="CategoriesButton-icon">
+                          <img src='{% static "assets/img/icons/departments" %}/{{ node.icon_id }}.svg' alt="{{ node.icon_id }}.svg"/>
+                      </div>
+                      <span class="CategoriesButton-text">{{ node.name }}</span>
+                  </a>
+
+                    {% if not node.is_leaf_node %}
+                    <div class="CategoriesButton-submenu">
+                      {{ children }}
+                    </div>
+                    <a class="CategoriesButton-arrow" href="{% url 'catalog' %}"></a>
+                    {% endif %}
               </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=bags">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/2.svg" %}' alt="2.svg"/>
-                  </div><span class="CategoriesButton-text">Bags</span></a>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=cameras">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/3.svg" %}' alt="3.svg"/>
-                  </div><span class="CategoriesButton-text">Cameras</span></a><a class="CategoriesButton-arrow" href="{% url 'catalog' %}"></a>
-                <div class="CategoriesButton-submenu"><a class="CategoriesButton-link" href="{% url 'catalog' %}?category=cameras&accessories">
-                    <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/1.svg" %}' alt="1.svg"/>
-                    </div><span class="CategoriesButton-text">Accessories</span></a><a class="CategoriesButton-link" href="{% url 'catalog' %}?category=cameras&bags">
-                    <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/2.svg" %}' alt="2.svg"/>
-                    </div><span class="CategoriesButton-text">Bags</span></a>
-                </div>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=clothings">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/4.svg" %}' alt="4.svg"/>
-                  </div><span class="CategoriesButton-text">Clothings</span></a>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=electronics">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/5.svg" %}' alt="5.svg"/>
-                  </div><span class="CategoriesButton-text">Electronics</span></a>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=fashion">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/6.svg" %}' alt="6.svg"/>
-                  </div><span class="CategoriesButton-text">Fashion</span></a>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=furniture">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/7.svg" %}' alt="7.svg"/>
-                  </div><span class="CategoriesButton-text">Furniture</span></a><a class="CategoriesButton-arrow" href="{% url 'catalog' %}"></a>
-                <div class="CategoriesButton-submenu"><a class="CategoriesButton-link" href="{% url 'catalog' %}?category=furniture&accessories">
-                    <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/1.svg" %}' alt="1.svg"/>
-                    </div><span class="CategoriesButton-text">Accessories</span></a><a class="CategoriesButton-link" href="{% url 'catalog' %}?category=furniture&bags">
-                    <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/2.svg" %}' alt="2.svg"/>
-                    </div><span class="CategoriesButton-text">Bags</span></a>
-                </div>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=lightnings">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/8.svg" %}' alt="8.svg"/>
-                  </div><span class="CategoriesButton-text">Lightings</span></a>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=mobiles">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/9.svg" %}' alt="9.svg"/>
-                  </div><span class="CategoriesButton-text">Mobiles</span></a>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=trends">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/10.svg" %}' alt="10.svg"/>
-                  </div><span class="CategoriesButton-text">Trends</span></a>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=more">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/11.svg" %}' alt="11.svg"/>
-                  </div><span class="CategoriesButton-text">More</span></a><a class="CategoriesButton-arrow" href="{% url 'catalog' %}"></a>
-                <div class="CategoriesButton-submenu"><a class="CategoriesButton-link" href="{% url 'catalog' %}?category=more&accessories">
-                    <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/1.svg" %}' alt="1.svg"/>
-                    </div><span class="CategoriesButton-text">Accessories</span></a><a class="CategoriesButton-link" href="{% url 'catalog' %}?category=more&bags">
-                    <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/2.svg" %}' alt="2.svg"/>
-                    </div><span class="CategoriesButton-text">Bags</span></a>
-                </div>
-              </div>
-              <div class="CategoriesButton-link"><a href="{% url 'catalog' %}?category=lightnings">
-                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/12.svg" %}' alt="12.svg"/>
-                  </div><span class="CategoriesButton-text">Lightings</span></a>
-              </div>
+              {% endif %}
+              {% endrecursetree %}
             </div>
+
           </div>
         </div>
         <div class="Header-searchLink"><img src='{% static "assets/img/icons/search.svg" %}' alt="search.svg"/>
@@ -224,6 +175,7 @@
     </div>
   </header>
 
+    {# Body of page #}
   <div class="Middle">
     {% block body %}{% endblock %}
   </div>
@@ -235,16 +187,11 @@
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincid  unt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
           </p>
           <ul class="menu menu_img menu_smallImg Footer-menuSoc">
-            <li class="menu-item"><a class="menu-link" href="{{ links.fb }}"><img src='{% static "assets/img/icons/socialFooter/fb.svg" %}' alt="fb.svg"/></a>
-            </li>
-            <li class="menu-item"><a class="menu-link" href="{{ links.tw }}"><img src='{% static "assets/img/icons/socialFooter/tw.svg" %}' alt="tw.svg"/></a>
-            </li>
-            <li class="menu-item"><a class="menu-link" href="{{ links.in }}"><img src='{% static "assets/img/icons/socialFooter/in.svg" %}' alt="in.svg"/></a>
-            </li>
-            <li class="menu-item"><a class="menu-link" href="{{ links.pt }}"><img src='{% static "assets/img/icons/socialFooter/pt.svg" %}' alt="pt.svg"/></a>
-            </li>
-            <li class="menu-item"><a class="menu-link" href="mailto:{{ links.mail }}"><img src='{% static "assets/img/icons/socialFooter/mail.svg" %}' alt="mail.svg"/></a>
-            </li>
+            {# link are given as view context  #}
+            {% for social, link in links.items %}
+              <li class="menu-item"><a class="menu-link" href="{{ link }}"><img src='{% static "assets/img/icons/socialFooter" %}/{{ social }}.svg' alt="{{ social }}.svg"/></a>
+              </li>
+            {% endfor %}
           </ul>
         </div>
         <div class="row-block">
