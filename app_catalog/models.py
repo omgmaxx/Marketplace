@@ -10,6 +10,8 @@ class Category(MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children',
                             verbose_name='parent')
     is_active = models.BooleanField(default=True, verbose_name='is_active')
+    icon_id = models.PositiveIntegerField(default=1, verbose_name='icon id')
+    sort_index = models.IntegerField(default=0, verbose_name='sort index')
 
     class Meta:
         unique_together = ('name', 'parent')
@@ -21,7 +23,7 @@ class Category(MPTTModel):
         )
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ['sort_index']
 
     def __str__(self):
         return self.name
@@ -54,7 +56,7 @@ class Tag(models.Model):
 class Media(models.Model):
     title = models.CharField(max_length=64, verbose_name='title')
     filename = models.CharField(max_length=64, verbose_name='file name')
-    file = models.ImageField(upload_to='catalog/%Y/%m/%d/', verbose_name='file', null=True)
+    file = models.FileField(upload_to='catalog/%Y/%m/%d/', verbose_name='file', null=True)
     link = models.URLField(verbose_name='link', blank=True)
     hash = models.CharField(max_length=32, verbose_name='hash', blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='creation date')
