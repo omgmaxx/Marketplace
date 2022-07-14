@@ -19,20 +19,23 @@
 
 ```
 (env)$ py manage.py migrate
-(env)$ py manage.py loaddata test_catalog.json
+(env)$ py manage.py loaddata test_users.json test_catalog.json
 ```
-
----
-[optional] for superuser:
-```
-(env)$ py manage.py loaddata super_user_admin_123.json
-```
----
 
 
 ```
 (env)$ py manage.py runserver
 ```
+
+| **Login**       | **Pass** |
+|-----------------|----------|
+| admin           | 123      |
+| Test_user       | 123456   |
+| Test_user_1     | 123456   |
+| Test_user_admin | 123456   |
+
+ 
+ 
 
 
 

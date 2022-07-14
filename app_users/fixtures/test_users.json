@@ -1,0 +1,191 @@
+[
+{
+    "model": "app_users.usermedia",
+    "pk": 5,
+    "fields": {
+        "uploader": 4,
+        "is_verified": true
+    }
+},
+{
+    "model": "app_users.usermedia",
+    "pk": 6,
+    "fields": {
+        "uploader": 2,
+        "is_verified": true
+    }
+},
+{
+    "model": "app_users.profile",
+    "pk": 1,
+    "fields": {
+        "user": 4,
+        "avatar": 5,
+        "middle_name": "J.",
+        "phone_number": "8800555353",
+        "created_at": "2022-07-14T12:07:44.217Z",
+        "edited_at": "2022-07-14T13:31:11.797Z"
+    }
+},
+{
+    "model": "app_users.profile",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "avatar": 6,
+        "middle_name": "Dmitrievich",
+        "phone_number": "99009990099",
+        "created_at": "2022-07-14T12:09:00.389Z",
+        "edited_at": "2022-07-14T13:31:06.139Z"
+    }
+},
+{
+    "model": "app_users.profile",
+    "pk": 3,
+    "fields": {
+        "user": 3,
+        "avatar": null,
+        "middle_name": "",
+        "phone_number": "",
+        "created_at": "2022-07-14T12:54:21.203Z",
+        "edited_at": "2022-07-14T12:55:33.428Z"
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "Admin",
+        "permissions": [
+            35,
+            39,
+            36,
+            37,
+            38,
+            69,
+            67,
+            68,
+            60,
+            61,
+            62,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            75,
+            76,
+            78,
+            52,
+            53,
+            54,
+            55,
+            70,
+            74,
+            71,
+            72,
+            73,
+            56,
+            57,
+            58,
+            59,
+            34,
+            33
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+        "name": "Customer",
+        "permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$HmPYxZxVVlpGk5wsdcoqIZ$6wmNIZl4R23cz2o9OKsAOhcluXdMcE6W8QBnbguGxDw=",
+        "last_login": "2022-07-14T13:30:23.587Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2022-07-05T04:43:18.604Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$lGdNxRRTONXsukYtanLIFD$CAstOM4ExFfCSRKRCplDd2uz37T3xw9p3mSEqH0ULPs=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Test_user",
+        "first_name": "Vasya",
+        "last_name": "Petrov",
+        "email": "mail@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-07-14T11:56:13Z",
+        "groups": [
+            1,
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$DsbY3HFcqGOZr3Rtbs1PqU$mpQuaLb35R+8JkEei3xnZO5y3xeq5FxNyXD1N7yHd/k=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Test_user_1",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-07-14T11:56:51Z",
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$lnoiL7XNdo6mGKbzJ6zWDN$hwWJ4Huh4GBqcd7AbQTUEGwo7GYOu2zO0MuNKNcFZ+4=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Test_user_admin",
+        "first_name": "Philip",
+        "last_name": "Admin",
+        "email": "admin@mail.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-07-14T11:57:02Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+}
+]

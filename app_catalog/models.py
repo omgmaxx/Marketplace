@@ -56,7 +56,7 @@ class Tag(models.Model):
 class Media(models.Model):
     title = models.CharField(max_length=64, verbose_name='title')
     filename = models.CharField(max_length=64, verbose_name='file name')
-    file = models.FileField(upload_to='catalog/%Y/%m/%d/', verbose_name='file', null=True)
+    file = models.FileField(upload_to='catalog/%Y/%m/%d/', verbose_name='file', null=True, blank=True)
     link = models.URLField(verbose_name='link', blank=True)
     hash = models.CharField(max_length=32, verbose_name='hash', blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='creation date')
