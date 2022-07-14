@@ -139,7 +139,7 @@
               {% recursetree categories %}
               {% if node.is_active %}
               <div class="CategoriesButton-link">
-                  <a href="{% url 'catalog' %}?category={{ node.name }}">
+                  <a href="{% url 'catalog' %}?category={{ node.id }}">
                       <div class="CategoriesButton-icon">
                           <img src='{% static "assets/img/icons/departments" %}/{{ node.icon_id }}.svg' alt="{{ node.icon_id }}.svg"/>
                       </div>
