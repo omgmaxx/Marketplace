@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ block.super }} - Reset{% endblock %}
+
+{% block body %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Confirm</button>
+    </form>
+
+    <form action="{% url 'main' %}">
+        <button>Return</button>
+    </form>
+
+{% endblock %}

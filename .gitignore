@@ -133,3 +133,4 @@ dmypy.json
 # Jetbrains Intellij IDEA
 .idea/
 /media/
+/sent_emails/
