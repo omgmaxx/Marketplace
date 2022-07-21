@@ -4,6 +4,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, 
 from django.db.transaction import atomic
 from django.urls import reverse
 from django.views.generic import CreateView
+from dynamic_preferences.users.views import UserPreferenceFormView
 
 from app_users.forms import RegisterUserForm
 from app_users.services.register import Register
@@ -38,6 +39,11 @@ class Reset(PasswordResetView):
     template_name = 'users/reset.html'
     success_url = '/'
 
+
 class ResetConfirm(PasswordResetConfirmView):
     template_name = 'users/reset_confirm.html'
     success_url = '/'
+
+
+class UserPrefs(UserPreferenceFormView):
+    template_name = 'landing/preferences.html'
