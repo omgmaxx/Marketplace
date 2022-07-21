@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView
 from django.db.transaction import atomic
 from django.urls import reverse
 from django.views.generic import CreateView
+from dynamic_preferences.users.views import UserPreferenceFormView
 
 from app_users.forms import RegisterUserForm
 from app_users.services.register import Register
@@ -32,3 +33,17 @@ class LogIn(LoginView):
 
 class LogOut(LoginRequiredMixin, LogoutView):
     template_name = 'users/logout.html'
+
+
+class Reset(PasswordResetView):
+    template_name = 'users/reset.html'
+    success_url = '/'
+
+
+class ResetConfirm(PasswordResetConfirmView):
+    template_name = 'users/reset_confirm.html'
+    success_url = '/'
+
+
+class UserPrefs(UserPreferenceFormView):
+    template_name = 'landing/preferences.html'
