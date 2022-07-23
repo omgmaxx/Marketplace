@@ -27,6 +27,8 @@
 (env)$ py manage.py runserver
 ```
 
+On server start applies config.cfg parameters as dynamic settings
+
 | **Login**       | **Pass** |
 |-----------------|----------|
 | admin           | 123      |
