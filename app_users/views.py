@@ -46,4 +46,4 @@ class ResetConfirm(PasswordResetConfirmView):
 
 
 class UserPrefs(UserPreferenceFormView):
-    template_name = 'landing/preferences.html'
+    template_name = 'users/preferences.html'

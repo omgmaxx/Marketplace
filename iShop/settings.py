@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'app_cabinet.apps.AppCabinetConfig',
     'app_cart.apps.AppCartConfig',
     'app_landing.apps.LandingConfig',
+    'app_settings.apps.AppSettingsConfig',
     'mptt',
     'django_mptt_admin',
     'debug_toolbar',
@@ -165,7 +166,8 @@ INTERNAL_IPS = [
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# available settings with their default values
+# Dynamic Preferences
+
 DYNAMIC_PREFERENCES = {
 
     # a python attribute that will be added to model instances with preferences
@@ -198,4 +200,40 @@ DYNAMIC_PREFERENCES = {
     # Use this to disable checking preferences names. This can be useful to debug things
     'VALIDATE_NAMES': True,
 
+}
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+            'simple': {
+                '()': 'colorlog.ColoredFormatter',  # colored output
+                'format': '{log_color}[{levelname}] {message}',
+                'style': '{',
+            },
+    },
+    'handlers': {
+        # 'file': {
+        #     'class': 'logging.FileHandler',
+        #     'filename': 'debug.log',
+        #     'formatter': 'simple',
+        #     'encoding': 'UTF-8',
+        # },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': 'INFO',
+            'handlers': [
+                'console',
+            ],
+            'propagate': True,
+        }
+    }
 }

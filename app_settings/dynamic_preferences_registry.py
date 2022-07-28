@@ -1,5 +1,3 @@
-from django.contrib.auth import get_user_model
-from dynamic_preferences.forms import global_preference_form_builder
 from dynamic_preferences.types import BooleanPreference, StringPreference
 from dynamic_preferences.preferences import Section
 from dynamic_preferences.registries import global_preferences_registry
@@ -39,8 +37,5 @@ class PlaceHolder(StringPreference):
     default = ''
 
 
-# We instantiate a manager for our global preferences
-global_preferences = global_preferences_registry.manager()
 
-global_preferences['maintenance_mode'] = True
-user = get_user_model().objects.get(username='Test_user')
+
