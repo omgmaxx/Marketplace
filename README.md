@@ -60,6 +60,8 @@ Models implemented:
 - Category
 - Manufacturer
 
+// Поправить таблицы: cart -> user, discount
+
 ![db template image](docs/db_template.png)
 ![db template image 2](docs/db_template_2.png)
 
