@@ -1,6 +1,7 @@
 import os.path
 
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -75,6 +76,7 @@ class Item(models.Model):
     short_description = models.TextField(max_length=400, verbose_name='short description')
     description = models.TextField(max_length=2000, verbose_name='description')
     price = models.PositiveIntegerField(verbose_name='price')
+    discount = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(100)], verbose_name='discount in %')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='creation date')
     edited_at = models.DateTimeField(auto_now=True, verbose_name='edit date')
     is_limited = models.BooleanField(verbose_name='is limited', default=False)

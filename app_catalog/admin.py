@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django_mptt_admin.admin import DjangoMpttAdmin
 
 from .models import Category, Manufacturer, Item, Commentary, Media, Tag, Parameter, ParameterValue, \
@@ -26,6 +27,27 @@ class ParameterValueInline(admin.TabularInline):
     model = ParameterValue
     fields = ('parameter', 'value')
     extra = 0
+
+
+class HasDiscount(SimpleListFilter):
+    title = 'having discount'
+    parameter_name = 'discount'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('yes', 'have discount'),
+            ('none', "haven't discount")
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.filter(
+                discount__gt=0
+            )
+        if self.value() == 'none':
+            return queryset.filter(
+                discount=0
+            )
 
 
 @admin.register(Category)
@@ -70,8 +92,8 @@ class RetailerAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'is_limited', 'is_active', 'category', 'manufacturer', 'get_tags', 'get_available_retailers']
-    list_filter = ['is_limited', 'category', 'manufacturer', 'tags']
+    list_display = ['name', 'price', 'discount', 'is_limited', 'is_active', 'category', 'manufacturer', 'get_tags', 'get_available_retailers']
+    list_filter = ['is_limited', 'category', 'manufacturer', 'tags', HasDiscount]
     inlines = [ParameterValueInline, RetailerAvailabilityInline, CommentaryInline]
 
     def get_tags(self, obj):
