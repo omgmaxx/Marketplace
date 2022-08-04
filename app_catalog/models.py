@@ -68,7 +68,7 @@ class Media(models.Model):
         verbose_name_plural = 'medias'
 
     def __str__(self):
-        return self.title
+        return f'media/{self.file}'
 
 
 class Item(models.Model):
@@ -85,7 +85,7 @@ class Item(models.Model):
     category = TreeForeignKey('Category', on_delete=models.CASCADE, related_name='items', verbose_name='category')
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, related_name='item',
                                      verbose_name='manufacturer', blank=True, null=True)
-    cover_image = models.ForeignKey(Media, on_delete=models.CASCADE, related_name='covered_item',
+    cover_image = models.ForeignKey(Media, on_delete=models.SET_NULL, related_name='covered_item', null=True,
                                     verbose_name='cover image')
     additional_image = models.ManyToManyField(Media, related_name='item', verbose_name='additional images', blank=True)
     # delivery_types = models.ManyToManyField(DeliveryTypes, related_name='item',
