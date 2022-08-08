@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 
+from app_cart.services.adding_item_to_cart import AddingItemToCart
 from app_catalog.filters import ItemFilter
 from app_catalog.models import Item
 
@@ -43,6 +44,14 @@ class ItemList(ListView):
         if asc == 'false':
             ordering = ''.join(('-', ordering))
         return ordering
+
+    def post(self, request, *args, **kwargs):
+        added_item_id = request.POST['add-to-cart']
+        if added_item_id:
+            adding = AddingItemToCart()
+            adding.execute(added_item_id, request.user.id)
+        return self.get(request)
+
 
 
 class ItemDetail(DetailView):

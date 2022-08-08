@@ -22,4 +22,5 @@ class AddingItemToCart:
         # cart = self._get_cart(user_id)
         # item = self._get_item(item_id)
         # self._add_position_to_cart(cart, item)
+        print(item_id, 'is added to', user_id, 'cart')
         pass
