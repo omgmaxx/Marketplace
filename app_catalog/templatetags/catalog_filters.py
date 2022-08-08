@@ -30,3 +30,15 @@ def param_replace(context, **kwargs):
     for key in [key for key, value in d.items() if not value]:
         del d[key]
     return d.urlencode()
+
+
+@register.simple_tag(takes_context=True)
+def swap_ordering(context, **kwargs):
+    d = context['request'].GET.copy()
+    for key, value in kwargs.items():
+        d[key] = value
+        if not kwargs.get('asc'):
+            d['asc'] = 'true'
+    for key in [key for key, value in d.items() if not value]:
+        del d[key]
+    return d.urlencode()

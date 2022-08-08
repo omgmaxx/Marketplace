@@ -36,29 +36,29 @@
             <div class="Section-columnContent">
               <form class="form" action="./?{% param_replace %}" method="get">
 
-                  {{ filter.form.non_field_errors }}
+                {{ filter.form.non_field_errors }}
 
-                    {% for field in filter.form %}
-                    <div class="form-group">
-                        {% if field.name == 'price' %}
-                            <div class="range Section-columnRange">
-                        {% else %}
-                            <label>{{ field.label }}
-                            {{ field.errors }}
-                        {% endif %}
-
-                        {{ field }}
-
-                        {% if field.name == 'price' %}
-                            </div>
-                            <div class="range-price">Price:&#32;
-                              <div class="rangePrice"></div>
-                            </div>
-                        {% else %}
-                            </label>
-                        {% endif %}
+                {# Price range #}
+                <div class="form-group">
+                    <div class="range Section-columnRange">
+                        {{ filter.form.price }}
                     </div>
-                    {% endfor %}
+                    <div class="range-price">Price:&#32;
+                      <div class="rangePrice"></div>
+                    </div>
+                </div>
+
+                {# Other fields #}
+                {% for field in filter.form %}
+                    {% if field.name != 'price' %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label>{{ field.label }}
+                            {{ field }}
+                            </label>
+                        </div>
+                    {% endif %}
+                {% endfor %}
 
                 <div class="form-group">
                   <div class="buttons">
@@ -70,7 +70,6 @@
               <form action=".">
                   <button class="btn btn_square btn_dark btn_narrow">Clear</button>
               </form>
-
             </div>
           </div>
 
@@ -99,7 +98,21 @@
           <div class="Sort">
             <div class="Sort-title">Сортировать по:
             </div>
-            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="#">Популярности</a><a class="Sort-sortBy" href="#">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_inc" href="#">Новизне</a>
+            <div class="Sort-variants">
+
+                {# List of sorting params #}
+                {% for pos, name in order_variants.items %}
+                    {% if ordering == pos %}
+                        {% if asc == 'true' %}
+                        <a class="Sort-sortBy Sort-sortBy_dec" href="?{% swap_ordering asc='false' page=0 %}">{{ name }}</a>
+                        {% else %}
+                        <a class="Sort-sortBy Sort-sortBy_inc" href="?{% swap_ordering asc='true' page=0 %}">{{ name }}</a>
+                        {% endif %}
+                    {% else %}
+                        <a class="Sort-sortBy" href="?{% swap_ordering ordering=pos page=0 %}">{{ name }}</a>
+                    {% endif %}
+                {% endfor %}
+
             </div>
           </div>
 
@@ -107,7 +120,7 @@
           {# Cards #}
           <div class="Cards">
           {% for card in object_list %}
-            <div class="Card"><a class="Card-picture" href="#"><img src="{{ card.cover_image.file.url }}" alt="card.jpg"/></a>
+            <div class="Card"><a class="Card-picture" href="#"><img src="{{ card.cover_image.file.url }}" alt="{{ card.cover_image.filename }}"/></a>
               <div class="Card-content">
                 <strong class="Card-title"><a href="{% url 'catalog-item' card.id %}">{{ card.name }}</a>
                 </strong>
@@ -122,20 +135,22 @@
               </div>
             </div>
           {% endfor %}
+          </div>
 
 
           {# Pagination #}
-          </div>
           <div class="Pagination">
             <div class="Pagination-ins">
-
+                {# Previous #}
                 {% if page_obj.has_previous %}
                 <a class="Pagination-element Pagination-element_prev" href="?{% param_replace page=page_obj.previous_page_number %}">
                     <img src="{% static 'assets/img/icons/prevPagination.svg' %}" alt="prevPagination.svg"/>
                 </a>
                 {% endif %}
 
+                {# List of pages #}
                 {% for page in page_obj.paginator %}
+                    {# range from current page conditioning #}
                     {% if page.number < page_list_end and page.number > page_list_start %}
                 <a class="Pagination-element {% if page.number == page_obj.number %}Pagination-element_current{% endif %}" href="?{% param_replace page=page.number %}">
                     <span class="Pagination-text">{{ page.number }}</span>
@@ -143,6 +158,7 @@
                     {% endif %}
                 {% endfor %}
 
+                {# Next #}
                 {% if page_obj.has_next %}
                 <a class="Pagination-element" href="?{% param_replace page=page_obj.next_page_number %}">
                     <img src="{% static 'assets/img/icons/nextPagination.svg' %}" alt="nextPagination.svg"/>

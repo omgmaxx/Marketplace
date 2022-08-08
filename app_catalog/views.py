@@ -8,6 +8,7 @@ class ItemList(ListView):
     model = Item
     template_name = 'catalog/catalog.html'
     paginate_by = 8
+    paginate_list_range = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -16,13 +17,32 @@ class ItemList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Filter context
         context['filter'] = self.filterset
 
-        # Limits for pagination list
-        context['page_list_end'] = context['page_obj'].number + 5
-        context['page_list_start'] = context['page_obj'].number - 5
+        # Pagination context
+        context['page_list_end'] = context['page_obj'].number + self.paginate_list_range + 1
+        context['page_list_start'] = context['page_obj'].number - self.paginate_list_range - 1
+
+        # Ordering context
+        context['ordering'] = self.request.GET.get('ordering')
+        context['order_variants'] = {
+            'popularity': 'Popularity',
+            'price': 'Price',
+            'commentaries': 'Commentaries',
+            'novelty': 'Novelty'
+        }
+        context['asc'] = self.request.GET.get('asc')
 
         return context
+
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering')
+        asc = self.request.GET.get('asc')
+        if asc == 'false':
+            ordering = ''.join(('-', ordering))
+        return ordering
 
 
 class ItemDetail(DetailView):
