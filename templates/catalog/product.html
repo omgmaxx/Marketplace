@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}{{ block.super }} - productname{% endblock %}
+
+{% block body %}
+ <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Megano Product
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="{% url 'main' %}">home</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Product</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="Section">
+      <div class="wrap">
+        <div class="Product">
+          <div class="ProductCard">
+
+
+              {# Images #}
+            <div class="ProductCard-look">
+              <div class="ProductCard-photo">
+                <img src="{{ object.cover_image.file.url }}" alt="{{ object.cover_image.filename }}"/>
+              </div>
+
+              <div class="ProductCard-picts">
+                  <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ object.cover_image.file.url }}">
+                    <img src="{{ object.cover_image.file.url }}" alt="{{ object.cover_image.filename }}"/>
+                  </a>
+                  {% for pict in object.additional_image.all %}
+                  <a class="ProductCard-pict" href="{{ pict.file.url }}">
+                    <img src="{{ pict.file.url }}" alt="{{ pict.file.filename }}"/>
+                  </a>
+                  {% endfor %}
+              </div>
+            </div>
+
+              {# Description #}
+            <div class="ProductCard-desc">
+              <div class="ProductCard-header">
+                  {# Name #}
+                <h2 class="ProductCard-title">{{ object.name }}</h2>
+
+                  {# Price #}
+                <div class="ProductCard-info">
+                  <div class="ProductCard-cost">
+                    <div class="ProductCard-price">${{ object.price }}</div>
+                  </div>
+                </div>
+              </div>
+
+                  {# Short description #}
+              <div class="ProductCard-text">
+                <ul>
+                  {% for line in object.short_description.splitlines %}
+                    <li>{{ line }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+                {# Adding to cart #}
+            <form action="" method="post">
+                {% csrf_token %}
+              <div class="ProductCard-cart">
+                    <div class="ProductCard-cartElement ProductCard-cartElement_amount">
+                      <div class="Amount Amount_product">
+                        <button class="Amount-remove" type="button"></button>
+                        <input class="Amount-input form-input" name="add-to-cart" type="text" value="1"/>
+                        <button class="Amount-add" type="button"></button>
+                      </div>
+                    </div>
+
+                    <div class="ProductCard-cartElement">
+                        <button class="btn btn_primary" type="submit">
+                            <img class="btn-icon" src="{% static 'assets/img/icons/card/cart_white.svg' %}" alt="cart_white.svg"/>
+                            <span class="btn-content">Add To Cart</span>
+                        </button>
+                    </div>
+              </div>
+            </form>
+
+                {# Tags #}
+              <div class="ProductCard-footer">
+                <div class="ProductCard-tags">
+                  <strong class="ProductCard-tagsTitle">Tags:</strong>
+                    {% for tag in object.tags.all %}
+                        <a href="../?tags={{ tag.id }}">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+            {# Tabs #}
+          <div class="Tabs Tabs_default">
+            <div class="Tabs-links">
+                <a class="Tabs-link_ACTIVE Tabs-link" href="#description">
+                    <span>Description</span>
+                </a>
+                <a class="Tabs-link" href="#sellers">
+                    <span>Retailers</span>
+                </a>
+                <a class="Tabs-link" href="#addit">
+                    <span>AdditionaL Info</span>
+                </a>
+                <a class="Tabs-link" href="#reviews">
+                    <span>Reviews ({{ comment_amt }})</span>
+                </a>
+            </div>
+            <div class="Tabs-wrap">
+
+              {# Description #}
+              <div class="Tabs-block" id="description">
+                  {% for line in object.description.splitlines %}
+                      {{ line|safe }}
+                  {% endfor %}
+                  <img class="pict pict_right" src="{% static 'assets/img/content/home/bigGoods.png' %}" alt="bigGoods.png"/>
+                <ul>
+                </ul>
+                <div class="clearfix">
+                </div>
+                <div class="table">
+                  <table>
+                    <tr>
+                      <th>Parameter
+                      </th>
+                      <th>value
+                      </th>
+                    </tr>
+                    {% for parameter in object.parameter.all %}
+                    <tr>
+                      <td>{{ parameter.parameter.name }}</td>
+                      <td>{{ parameter.value }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+
+              {# Retailers #}
+              <div class="Tabs-block" id="sellers">
+                <div class="Categories Categories_product">
+                </div>
+              </div>
+
+              {# Parameters #}
+              <div class="Tabs-block" id="addit">
+                <div class="Product-props">
+                  {% for parameter in object.parameter.all %}
+                  <div class="Product-prop">
+                    <strong>{{ parameter.parameter.name }}</strong>
+                    <span>{{ parameter.value }}</span>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              {# Reviews #}
+              <div class="Tabs-block" id="reviews">
+                <header class="Section-header">
+                  <h3 class="Section-title">{{ comment_amt }} Review{% if comment_amt > 1 %}s{% endif %}</h3>
+                </header>
+
+                <div class="Comments">
+                {% for comment in object.commentary.all %}
+                  <div class="Comment">
+                    <div class="Comment-column Comment-column_pict">
+                      <div class="Comment-avatar">
+{#                          <img src="{{ comment.user.profile.avatar.file.url }}">#}
+                      </div>
+                    </div>
+                    <div class="Comment-column">
+                      <header class="Comment-header">
+                        <div>
+                          <strong class="Comment-title">
+                              {% if comment.user %}{{ comment.user.username }}
+                              {% else %}{{ comment.name }}
+                              {% endif %}
+                          </strong>
+
+                          <span class="Comment-date">{{ comment.created_at }}</span>
+                        </div>
+                      </header>
+                      <div class="Comment-content">{{ comment.text }}</div>
+                    </div>
+                  </div>
+                {% endfor %}
+                </div>
+
+
+                {# Add reveiw #}
+                <header class="Section-header Section-header_product">
+                  <h3 class="Section-title">Add Review
+                  </h3>
+                </header>
+                <div class="Tabs-addComment">
+                  <form class="form" action="" method="post">
+                  {% csrf_token %}
+                    <div class="form-group">
+                      <textarea class="form-textarea" name="review" id="review" placeholder="Review"></textarea>
+                    </div>
+                    {% if not user.is_authenticated %}
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="row-block">
+                              <input class="form-input" id="name" name="name" type="text" placeholder="Name"/>
+                            </div>
+                            <div class="row-block">
+                              <input class="form-input" id="email" name="email" type="text" placeholder="Email"/>
+                            </div>
+                          </div>
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                      <button class="btn btn_muted" type="submit">Submit Review</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

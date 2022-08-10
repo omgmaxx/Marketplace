@@ -8,7 +8,7 @@ class AddingItemToCart:
         item = Item.objects.get(id=item_id)
         return item
 
-    def _add_position_to_cart(self, cart, item):
+    def _add_position_to_cart(self, cart, item, amount):
         position = Position.objects.get_or_create(
             cart=cart,
             item=item,
@@ -18,9 +18,10 @@ class AddingItemToCart:
             position[0].amount += 1
             position[0].save()
 
-    def execute(self, item_id, user_id):
-        # cart = self._get_cart(user_id)
-        # item = self._get_item(item_id)
-        # self._add_position_to_cart(cart, item)
-        print(item_id, 'is added to', user_id, 'cart')
-        pass
+    def execute(self, item_id, user_id, amount=1):
+        if amount:
+            # cart = self._get_cart(user_id)
+            # item = self._get_item(item_id)
+            # self._add_position_to_cart(cart, item, amount)
+            print(f"{amount} of {item_id} is added to {user_id}'s cart")
+            pass

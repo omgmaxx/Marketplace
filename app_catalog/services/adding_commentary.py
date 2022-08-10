@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 
+from app_catalog.models import Commentary, Item
+
 
 class AddingCommentary:
 
@@ -11,33 +13,38 @@ class AddingCommentary:
         user = User.objects.get(id=user_id)
         return user
 
-    def _create_commentary_login(self, user, item, text):
+
+class AddingCommentaryAnonymously(AddingCommentary):
+    def _create_commentary(self, name, item, email, text):
+        commentary = Commentary.objects.create(
+            item=item,
+            name=name,
+            email=email,
+            is_verified=True,
+            text=text
+        )
+        return commentary
+
+    def execute(self, text, item_id, name, email):
+        if not name:
+            name = 'Anonymous'
+        item = self._get_item(item_id)
+        comment = self._create_commentary(name, item, email, text)
+        return comment
+
+
+class AddingCommentaryLogin(AddingCommentary):
+    def _create_commentary(self, user, item, text):
         commentary = Commentary.objects.create(
             user=user,
             item=item,
-            verified=True,
+            is_verified=True,
             text=text
         )
         return commentary
 
-    def _create_commentary_anon(self, name, email, text):
-        commentary = Commentary.objects.create(
-            name=name,
-            email=email,
-            verified=True,
-            text=text
-        )
-        return commentary
-
-    def execute(self, user_id, text, item_id=None, name='Anonymous', email=''):
-        # item = self._get_item(item_id)
-        #
-        # # Is registered user?
-        # if item_id:
-        #     user = self._get_user(user_id)
-        #     comment = self._add_commentary_to_item_login(user, item, text)
-        # else:
-        #     comment = self._add_commentary_to_item_anon(name, email, text)
-
-        comment = 1 # заглушка
+    def execute(self, user_id, item_id, text):
+        item = self._get_item(item_id)
+        user = self._get_user(user_id)
+        comment = self._create_commentary(user, item, text)
         return comment

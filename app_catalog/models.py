@@ -139,8 +139,8 @@ class Parameter(models.Model):
 
 
 class ParameterValue(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='item')
-    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE, verbose_name='parameter')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='item', related_name='parameter')
+    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE, verbose_name='parameter', related_name='value')
     value = models.CharField(max_length=128, verbose_name='value')
 
     class Meta:

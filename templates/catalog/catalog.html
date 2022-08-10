@@ -81,12 +81,10 @@
               </strong>
             </header>
             <div class="Section-columnContent">
-              <div class="buttons"><a class="btn btn_default btn_sm" href="#">Video</a>
-                  <a class="btn btn_default btn_sm" href="#">Development</a>
-                  <a class="btn btn_default btn_sm" href="#">Gaming</a>
-                  <a class="btn btn_default btn_sm" href="#">Asus</a>
-                  <a class="btn btn_default btn_sm" href="#">Development</a>
-                  <a class="btn btn_default btn_sm" href="#">Video</a>
+              <div class="buttons">
+                  {% for tag in tags %}
+                      <a class="btn btn_default btn_sm" href="?{% swap_ordering tags=tag.id %}">{{ tag.name }}</a>
+                  {% endfor %}
               </div>
             </div>
           </div>
@@ -120,32 +118,7 @@
           {# Cards #}
           <div class="Cards">
           {% for card in object_list %}
-            <div class="Card"><a class="Card-picture" href="#"><img src="{{ card.cover_image.file.url }}" alt="{{ card.cover_image.filename }}"/></a>
-              <div class="Card-content">
-                <strong class="Card-title"><a href="{% url 'catalog-item' card.id %}">{{ card.name }}</a>
-
-                </strong>
-                <div class="Card-description">
-
-                  <div class="Card-cost">
-                      <span class="Card-price">${{ card.price }}</span>
-                  </div>
-
-                  <div class="Card-category">
-                      {{ card.category }}
-                  </div>
-
-                  <form method="post">
-                  {% csrf_token %}
-                      <div class="Card-hover">
-                          <button class="Card-btn" name="add-to-cart" value="{{ card.id }}">
-                          <img src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg"/>
-                          </button>
-                      </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+            {% include 'includes/item_card.html' %}
           {% endfor %}
           </div>
 

@@ -1,0 +1,34 @@
+{% load static %}
+
+<div class="Card"><a class="Card-picture" href="#"><img src="{{ card.cover_image.file.url }}" alt="{{ card.cover_image.filename }}"/></a>
+  <div class="Card-content">
+    <strong class="Card-title"><a href="{% url 'catalog-item' card.id %}">
+        {{ card.name }}</a>
+        <div class="Card-description"><a href="{% url 'catalog-item' card.id %}#reviews">Commentaries: {{ card.commentaries }}</a></div>
+    </strong>
+
+
+
+    <div class="Card-description">
+      <div class="Card-cost">
+          <span class="Card-price">${{ card.price }}</span>
+      </div>
+
+      <div class="Card-category">
+          {{ card.category }}
+      </div>
+
+      <form method="post">
+      {% csrf_token %}
+          <div class="Card-hover">
+              <form method="post">
+                  {% csrf_token %}
+                  <button class="Card-btn" name="add-to-cart" value="{{ card.id }}">
+                    <img src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg"/>
+                  </button>
+              </form>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
