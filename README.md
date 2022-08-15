@@ -60,8 +60,6 @@ Models implemented:
 - Category
 - Manufacturer
 
-// Поправить таблицы: cart -> user, discount
-
 ![db template image](docs/db_template.png)
 ![db template image 2](docs/db_template_2.png)
 
@@ -97,3 +95,10 @@ Models implemented:
 | Users       | Login             | Authenticating and login user                                      |       Get       | /users/login/             |                                                  |
 | Users       | Logout            | Logout user                                                        |       Get       | /users/logout/            |                                                  |
 | Admin panel |                   | Everything included in django administrating panel                 |       Get       | /admin/                   | Admin rights are required                        |
+
+
+
+## TODO:
+
+- Поправить таблицы: cart -> user, discount
+- На главной лимитированные карты двоятся
