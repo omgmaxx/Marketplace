@@ -30,14 +30,14 @@
               {# Images #}
             <div class="ProductCard-look">
               <div class="ProductCard-photo">
-                <img src="{{ object.cover_image.file.url }}" alt="{{ object.cover_image.filename }}"/>
+                <img src="{{ cover_image.file.url }}" alt="{{ cover_image.filename }}"/>
               </div>
 
               <div class="ProductCard-picts">
-                  <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ object.cover_image.file.url }}">
-                    <img src="{{ object.cover_image.file.url }}" alt="{{ object.cover_image.filename }}"/>
+                  <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ cover_image.file.url }}">
+                    <img src="{{ cover_image.file.url }}" alt="{{ cover_image.filename }}"/>
                   </a>
-                  {% for pict in object.additional_image.all %}
+                  {% for pict in additional_pics %}
                   <a class="ProductCard-pict" href="{{ pict.file.url }}">
                     <img src="{{ pict.file.url }}" alt="{{ pict.file.filename }}"/>
                   </a>
@@ -75,8 +75,10 @@
                     <div class="ProductCard-cartElement ProductCard-cartElement_amount">
                       <div class="Amount Amount_product">
                         <button class="Amount-remove" type="button"></button>
-                        <input class="Amount-input form-input" name="add-to-cart" type="text" value="1"/>
-                        <button class="Amount-add" type="button"></button>
+                          <label>
+                              <input class="Amount-input form-input" name="add-to-cart" type="text" value="1"/>
+                          </label>
+                          <button class="Amount-add" type="button"></button>
                       </div>
                     </div>
 
@@ -173,7 +175,7 @@
                 </header>
 
                 <div class="Comments">
-                {% for comment in object.commentary.all %}
+                {% for comment in commentaries %}
                   <div class="Comment">
                     <div class="Comment-column Comment-column_pict">
                       <div class="Comment-avatar">
@@ -205,19 +207,25 @@
                   </h3>
                 </header>
                 <div class="Tabs-addComment">
-                  <form class="form" action="" method="post">
+                  <form class="form" action="./#reviews" method="post">
                   {% csrf_token %}
                     <div class="form-group">
-                      <textarea class="form-textarea" name="review" id="review" placeholder="Review"></textarea>
+                        {{ form.review.errors }}
+                        <label for="review"></label>
+                        <textarea class="form-textarea" name="review" id="review" placeholder="Review"></textarea>
                     </div>
                     {% if not user.is_authenticated %}
                         <div class="form-group">
                           <div class="row">
                             <div class="row-block">
-                              <input class="form-input" id="name" name="name" type="text" placeholder="Name"/>
+                                {{ form.name.errors }}
+                                <label for="name"></label>
+                                <input class="form-input" id="name" name="name" type="text" placeholder="Name"/>
                             </div>
                             <div class="row-block">
-                              <input class="form-input" id="email" name="email" type="text" placeholder="Email"/>
+                                {{ form.email.errors }}
+                                <label for="email"></label>
+                                <input class="form-input" id="email" name="email" type="text" placeholder="Email"/>
                             </div>
                           </div>
                         </div>

@@ -19,7 +19,7 @@ class MainPage(ListView):
 
     def filter_popular(self):
         queryset = self.get_queryset()
-        # queryset = queryset.filter(is_limited=True)
+        # Ordering placeholder
         return queryset[:8]
 
     def get_popular_categories(self):

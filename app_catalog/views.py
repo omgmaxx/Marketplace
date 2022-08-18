@@ -1,10 +1,17 @@
 from django.db.models import Count
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
 
 from app_cart.services.adding_item_to_cart import AddingItemToCart
 from app_catalog.filters import ItemFilter
+from app_catalog.forms import CommentForm
 from app_catalog.models import Item, Tag
-from app_catalog.services.adding_commentary import AddingCommentaryLogin, AddingCommentaryAnonymously
+from app_catalog.services.adding_commentary import AddingCommentary
+from app_catalog.services.get_comment_amount_of_item import GetCommentAmountOfItem
+from app_catalog.services.get_comments_of_item import GetCommentsOfItem
+from app_catalog.services.get_medias_of_item import GetMediasOfItem
 
 
 class ItemList(ListView):
@@ -63,40 +70,54 @@ class ItemList(ListView):
         return self.get(request)
 
 
-class ItemDetail(DetailView):
+class ItemDetail(FormMixin, DetailView):
     model = Item
     template_name = 'catalog/product.html'
+    form_class = CommentForm
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.prefetch_related('parameter__parameter', 'commentary').annotate(commentaries=Count('commentary'))
+        return queryset.prefetch_related('parameter__parameter', 'commentary', 'commentary__user', 'cover_image', 'additional_image'
+                                         ).annotate(commentary_amt=Count('commentary'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comment_amt'] = self.object.commentaries
+
+        context['comment_amt'] = GetCommentAmountOfItem().execute(self.object)
+        context['commentaries'] = GetCommentsOfItem().execute(self.object)
+
+        cover_image, additional_pics = GetMediasOfItem().execute(self.object)
+        context['cover_image'] = cover_image
+        context['additional_pics'] = additional_pics
+
         return context
 
+    def get_success_url(self):
+        return reverse('catalog-item', kwargs={'pk': self.object.pk})
 
-    def post(self, request, pk):
+    def form_valid(self, form):
+        adding_comment = AddingCommentary()
+        adding_comment.execute(
+            text=form.cleaned_data.get('review'),
+            user_id=self.request.user.id,
+            item_id=self.get_object().pk,
+            name=form.cleaned_data.get('name'),
+            email=form.cleaned_data.get('email'),
+        )
+        return super().form_valid(form)
+
+    def post(self, request, pk, *args, **kwargs):
+        self.object = self.get_object()
+
         if 'review' in request.POST:
-            if request.user.id:
-                adding_comment = AddingCommentaryLogin()
-                adding_comment.execute(
-                    text=request.POST['review'],
-                    user_id=request.user.id,
-                    item_id=pk,
-                )
+            form = self.get_form()
+            if form.is_valid():
+                return self.form_valid(form)
             else:
-                adding_comment = AddingCommentaryAnonymously()
-                adding_comment.execute(
-                    text=request.POST['review'],
-                    name=request.POST['name'],
-                    email=request.POST['email'],
-                    item_id=pk,
-                )
+                return self.form_invalid(form)
 
-        elif 'add-to-cart' in request.POST:
+        if 'add-to-cart' in request.POST:
             adding_to_cart = AddingItemToCart()
             adding_to_cart.execute(pk, request.user.id, request.POST['add-to-cart'])
+            return HttpResponseRedirect(self.get_success_url())
 
-        return self.get(request)
