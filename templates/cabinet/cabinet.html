@@ -1,0 +1,24 @@
+{% extends 'cabinet/cabinet_base.html' %}
+{% load static %}
+
+
+{% block title %}{{ block.super }} - profile{% endblock %}
+
+{% block cabinet %}
+<div class="Account">
+  <div class="Account-group">
+    <div class="Account-column">
+      <div class="Account-avatar"><img src="{% static 'assets/img/content/home/card.jpg' %}" alt="card.jpg"/></div>
+    </div>
+    <div class="Account-column">
+      <div class="Account-name">{{ user.username }}</div>
+      <a class="Account-editLink" href="{% url 'profile' %}">Edit profile</a>
+    </div>
+  </div>
+  <div class="Account-group">
+    <div class="Account-column Account-column_full">
+      {% include 'includes/history_order_card.html' with card=history_card %}
+    </div>
+  </div>
+</div>
+{% endblock %}

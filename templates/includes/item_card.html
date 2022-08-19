@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="Card"><a class="Card-picture" href="#"><img src="{{ card.cover_image.file.url }}" alt="{{ card.cover_image.filename }}"/></a>
+<div class="Card"><a class="Card-picture" href="{% url 'catalog-item' card.id %}"><img src="{{ card.cover_image.file.url }}" alt="{{ card.cover_image.filename }}"/></a>
   <div class="Card-content">
     <strong class="Card-title"><a href="{% url 'catalog-item' card.id %}">
         {{ card.name }}</a>

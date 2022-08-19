@@ -1,0 +1,11 @@
+{% extends 'cabinet/cabinet_base.html' %}
+
+{% block title %}{{ block.super }} - orders history{% endblock %}
+
+{% block cabinet %}
+<div class="Orders">
+  {% for history_card in range %}
+    {% include 'includes/history_order_card.html' with card=history_card %}
+  {% endfor %}
+</div>
+{% endblock %}

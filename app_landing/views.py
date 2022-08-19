@@ -1,4 +1,4 @@
-from django.db.models import Min
+from django.db.models import Min, Count
 from django.views.generic import ListView
 
 from app_catalog.models import Item, Category
@@ -9,7 +9,8 @@ class MainPage(ListView):
     model = Item
 
     def get_queryset(self):
-        queryset = super(MainPage, self).get_queryset().select_related('category', 'cover_image')
+        queryset = super(MainPage, self).get_queryset().select_related('category', 'cover_image'
+                                                                       ).annotate(commentaries=Count('commentary'))
         return queryset
 
     def filter_limited(self):
